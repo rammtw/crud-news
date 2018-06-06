@@ -8,6 +8,19 @@
                     <div class="card-header">News</div>
 
                     <div class="card-body">
+                        <div class="filter">
+                            <form class="form-inline">
+                                <div class="form-group mb-2 mr-sm-2">
+                                    <label for="category" class="sr-only">Категория</label>
+                                    <select name="category_id" class="form-control">
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2">Фильтр</button>
+                            </form>
+                        </div>
                         <table class="table">
                             <thead>
                             <tr>
