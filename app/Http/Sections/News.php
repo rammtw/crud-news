@@ -6,6 +6,10 @@ use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
 use SleepingOwl\Admin\Contracts\Initializable;
 use SleepingOwl\Admin\Section;
+use AdminDisplay;
+use AdminColumn;
+use AdminForm;
+use AdminFormElement;
 
 /**
  * Class News
@@ -48,7 +52,13 @@ class News extends Section implements Initializable
      */
     public function onDisplay()
     {
-        // remove if unused
+        return AdminDisplay::table()
+            ->setHtmlAttribute('class', 'table-primary')
+            ->setColumns(
+                AdminColumn::text('id', '#')->setWidth('30px'),
+                AdminColumn::text('category.title', 'Категория')->setWidth('100px'),
+                AdminColumn::text('title', 'Название')->setWidth('100px')
+            )->paginate(20);
     }
 
     /**
@@ -58,7 +68,11 @@ class News extends Section implements Initializable
      */
     public function onEdit($id)
     {
-        // remove if unused
+        return AdminForm::panel()->addBody([
+            AdminFormElement::select('category_id', 'Категория')->setModelForOptions(\App\Models\Category::class)->required(),
+            AdminFormElement::text('title', 'Название')->addValidationRule('max:150')->required(),
+            AdminFormElement::textarea('description', 'Описание')->addValidationRule('max:250')->required(),
+        ]);
     }
 
     /**

@@ -28,9 +28,14 @@
 ### Установка laradock
 ```
 git submodule init
+git submodule update --recursive --remote
 cd laradock
 cp env-example .env
-APPLICATION=../
+```
+
+### Настройка .env laradock
+```
+NGINX_HOST_HTTP_PORT=8000
 ```
 
 ### Запуск и остановка контейнеров
@@ -75,4 +80,11 @@ mysql> quit
 DB_DATABASE=db_name
 DB_USERNAME=db_user
 DB_PASSWORD=db_secret
+```
+
+### Инициализация проекта
+
+Запуск миграций и сидов
+```
+php artisan migrate --seed
 ```

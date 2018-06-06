@@ -4,7 +4,12 @@ namespace App\Http\Sections;
 
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
+use SleepingOwl\Admin\Contracts\Initializable;
 use SleepingOwl\Admin\Section;
+use AdminDisplay;
+use AdminColumn;
+use AdminForm;
+use AdminFormElement;
 
 /**
  * Class Category
@@ -13,7 +18,7 @@ use SleepingOwl\Admin\Section;
  *
  * @see http://sleepingowladmin.ru/docs/model_configuration_section
  */
-class Category extends Section
+class Category extends Section implements Initializable
 {
     /**
      * @see http://sleepingowladmin.ru/docs/model_configuration#ограничение-прав-доступа
@@ -32,12 +37,32 @@ class Category extends Section
      */
     protected $alias;
 
+    public function initialize()
+    {
+        $this->addToNavigation($priority = 400);
+    }
+
+    public function getTitle()
+    {
+        return 'Категории';
+    }
+
+    public function getCreateTitle()
+    {
+        return 'Новая категория';
+    }
+
     /**
      * @return DisplayInterface
      */
     public function onDisplay()
     {
-        // remove if unused
+        return AdminDisplay::table()
+            ->setHtmlAttribute('class', 'table-primary')
+            ->setColumns(
+                AdminColumn::text('id', '#')->setWidth('30px'),
+                AdminColumn::text('title', 'Название')->setWidth('100px')
+            )->paginate(20);
     }
 
     /**
@@ -47,7 +72,9 @@ class Category extends Section
      */
     public function onEdit($id)
     {
-        // remove if unused
+        return AdminForm::panel()->addBody([
+            AdminFormElement::text('title', 'Название')->required(),
+        ]);
     }
 
     /**
