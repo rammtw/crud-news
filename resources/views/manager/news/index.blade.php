@@ -32,7 +32,7 @@
                                     <th scope="row">{{ $item->id }}</th>
                                     <td>{{ $item->category->title }}</td>
                                     <td><a href="{{ route('news.show', $item->id) }}">{{ $item->title }}</a></td>
-                                    <td>{{ with($item->category->created_at)->format('H:i:s d-m-Y') }}</td>
+                                    <td>{{ with($item->created_at)->format('H:i:s d-m-Y') }}</td>
                                     <td>
                                         <a href="{{ route('manager.news.edit', $item->id) }}" class="btn btn-sm btn-primary mb-2">Редактировать</a>
                                         <form action="{{ route('manager.news.delete', $item->id) }}" method="post">
